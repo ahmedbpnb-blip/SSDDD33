@@ -248,9 +248,6 @@
             }
         }
     </style>
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js" type="module"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js" type="module"></script>
 </head>
 <body>
 
@@ -319,6 +316,7 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -334,20 +332,37 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig );
         const auth = getAuth(app);
+        const db = getFirestore(app); // Initialize Firestore
         const provider = new GoogleAuthProvider();
 
-        // --- Function to Sign In with Google ---
+        // --- Function to Sign In with Google and Create User in Firestore ---
         async function signInWithGoogle() {
             try {
                 const result = await signInWithPopup(auth, provider);
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
-                // The signed-in user info.
                 const user = result.user;
                 
                 console.log("تم تسجيل الدخول بنجاح!", user);
-                alert(`مرحباً ${user.displayName}! تم تسجيل دخولك بنجاح.`);
+
+                // Check if user already exists in Firestore
+                const userDocRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userDocRef);
+
+                if (!userDoc.exists()) {
+                    // User is new, create a new document in Firestore
+                    console.log("مستخدم جديد! جاري إنشاء سجل في Firestore...");
+                    await setDoc(userDocRef, {
+                        uid: user.uid,
+                        displayName: user.displayName,
+                        email: user.email,
+                        photoURL: user.photoURL,
+                        trialStartDate: new Date() // Save the current date as the trial start date
+                    });
+                    alert(`مرحباً ${user.displayName}! تم إنشاء حسابك وبدء فترتك التجريبية.`);
+                } else {
+                    // User already exists
+                    console.log("مرحباً بعودتك يا", user.displayName);
+                    alert(`مرحباً بعودتك ${user.displayName}!`);
+                }
                 
                 // Close the popup after successful login
                 loginPopup.style.display = 'none';
@@ -377,14 +392,12 @@
             loginPopup.style.display = 'flex';
         }
         
-        // The signup button will now also open the login popup
         signupBtn.onclick = function() {
             loginPopup.style.display = 'flex';
         }
 
-        // --- MODIFIED: Google Sign In Button ---
         googleSignInBtn.onclick = function() {
-            signInWithGoogle(); // Call the new Firebase function
+            signInWithGoogle();
         }
 
         closeLogin.onclick = function() {
@@ -404,7 +417,6 @@
             }
         }
 
-        // This is a placeholder for payment form submission
         document.getElementById('paymentForm').addEventListener('submit', function(e) {
             e.preventDefault();
             alert('سيتم تفعيل الدفع قريباً!');
