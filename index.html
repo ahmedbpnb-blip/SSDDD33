@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة هبوط حديثة</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6C63FF;
+            --secondary-color: #FF6584;
+            --background-color: #F0F2F5;
+            --text-color: #333;
+            --white-color: #FFFFFF;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1 );
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-buttons button {
+            margin-left: 15px;
+            padding: 10px 25px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .login-btn:hover {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+
+        .signup-btn {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+
+        .signup-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.4);
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 80px 0;
+            min-height: 70vh;
+        }
+
+        .hero-text {
+            max-width: 50%;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        .hero-image {
+            max-width: 45%;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+        }
+        
+        /* Popup Styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup-content {
+            background-color: var(--white-color);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+            text-align: center;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2em;
+            cursor: pointer;
+            color: #aaa;
+            line-height: 1;
+        }
+        
+        .close-btn:hover {
+            color: var(--text-color);
+        }
+
+        .popup-content h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 12px;
+            background-color: #4285F4;
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .google-btn:hover {
+            background-color: #357ae8;
+        }
+
+        .google-btn img {
+            width: 24px;
+            height: 24px;
+            margin-left: 15px;
+            background-color: white;
+            border-radius: 50%;
+            padding: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: var(--border-radius);
+            font-size: 1em;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 101, 132, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-text, .hero-image {
+                max-width: 100%;
+            }
+            .hero-text h1 {
+                font-size: 2.5em;
+            }
+            header {
+                flex-direction: column;
+            }
+            .nav-buttons {
+                margin-top: 20px;
+            }
+        }
+    </style>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js" type="module"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js" type="module"></script>
+</head>
+<body>
+
+    <header class="container">
+        <div class="logo">مشروعي</div>
+        <div class="nav-buttons">
+            <button class="login-btn" id="loginBtn">تسجيل الدخول</button>
+            <button class="signup-btn" id="signupBtn">ابدأ الآن مجاناً</button>
+        </div>
+    </header>
+
+    <main class="hero container">
+        <div class="hero-text">
+            <h1>حوّل بياناتك إلى قرارات ذكية</h1>
+            <p>استخدم قوة الذكاء الاصطناعي لتحليل النصوص، تلخيص المستندات، واستخراج المعلومات الهامة بسهولة ودقة.</p>
+            <button class="signup-btn">ابدأ الفترة التجريبية</button>
+        </div>
+        <div class="hero-image">
+            <img src="https://i.imgur.com/O0232Qc.png" alt="تحليل البيانات بالذكاء الاصطناعي">
+        </div>
+    </main>
+
+    <!-- Login Popup -->
+    <div id="loginPopup" class="popup-overlay">
+        <div class="popup-content">
+            <span class="close-btn" id="closeLogin">&times;</span>
+            <h2>تسجيل الدخول</h2>
+            <p>مرحباً بعودتك! سجل دخولك للمتابعة.</p>
+            <button class="google-btn" id="googleSignInBtn">
+                <span>تسجيل الدخول باستخدام Google</span>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo">
+            </button>
+        </div>
+    </div>
+
+    <!-- Payment Popup -->
+    <div id="paymentPopup" class="popup-overlay">
+        <div class="popup-content">
+            <span class="close-btn" id="closePayment">&times;</span>
+            <h2>إتمام الاشتراك</h2>
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="cardName">الاسم على البطاقة</label>
+                    <input type="text" id="cardName" required>
+                </div>
+                <div class="form-group">
+                    <label for="cardNumber">رقم البطاقة</label>
+                    <input type="text" id="cardNumber" required>
+                </div>
+                <div class="form-group" style="display: flex; gap: 10px;">
+                    <div style="flex: 1;">
+                        <label for="expiryDate">تاريخ الانتهاء</label>
+                        <input type="text" id="expiryDate" placeholder="MM/YY" required>
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" required>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">ادفع الآن</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyBuyCSmPaxPG-uNRbwujkUriyBNbe9K7ak",
+          authDomain: "qhyu233.firebaseapp.com",
+          projectId: "qhyu233",
+          storageBucket: "qhyu233.firebasestorage.app",
+          messagingSenderId: "1036194209297",
+          appId: "1:1036194209297:web:984bb48f5c88dda6c7dbb0",
+          measurementId: "G-1NFXKVEGH6"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig );
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // --- Function to Sign In with Google ---
+        async function signInWithGoogle() {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                
+                console.log("تم تسجيل الدخول بنجاح!", user);
+                alert(`مرحباً ${user.displayName}! تم تسجيل دخولك بنجاح.`);
+                
+                // Close the popup after successful login
+                loginPopup.style.display = 'none';
+
+            } catch (error) {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.error("خطأ في تسجيل الدخول:", errorCode, errorMessage);
+                alert(`حدث خطأ: ${errorMessage}`);
+            }
+        }
+
+
+        // --- Original Popup JavaScript ---
+        const loginPopup = document.getElementById('loginPopup');
+        const paymentPopup = document.getElementById('paymentPopup');
+        
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const googleSignInBtn = document.getElementById('googleSignInBtn');
+
+        const closeLogin = document.getElementById('closeLogin');
+        const closePayment = document.getElementById('closePayment');
+
+        loginBtn.onclick = function() {
+            loginPopup.style.display = 'flex';
+        }
+        
+        // The signup button will now also open the login popup
+        signupBtn.onclick = function() {
+            loginPopup.style.display = 'flex';
+        }
+
+        // --- MODIFIED: Google Sign In Button ---
+        googleSignInBtn.onclick = function() {
+            signInWithGoogle(); // Call the new Firebase function
+        }
+
+        closeLogin.onclick = function() {
+            loginPopup.style.display = 'none';
+        }
+
+        closePayment.onclick = function() {
+            paymentPopup.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == loginPopup) {
+                loginPopup.style.display = "none";
+            }
+            if (event.target == paymentPopup) {
+                paymentPopup.style.display = "none";
+            }
+        }
+
+        // This is a placeholder for payment form submission
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('سيتم تفعيل الدفع قريباً!');
+            paymentPopup.style.display = 'none';
+        });
+
+    </script>
+
+</body>
+</html>
